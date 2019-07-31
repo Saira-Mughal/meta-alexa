@@ -4,10 +4,10 @@ SECTION = "alexa"
 LICENSE = "CLOSED"
 
 SRC_URI = "git://github.com/alexa/avs-device-sdk.git;branch=master;protocol=https \
-           file://libInstall.sh \
+           file://libsInstall.sh \
 "
 
-SRCREV = "8bf0160c5e56a3d5ebc1e1caeab14afc8658b0da"
+SRCREV = "1255f3398b9c9bdd92d8fcde89c90f19f49eb21d"
 
 
 S = "${WORKDIR}/git"
@@ -42,7 +42,7 @@ DEPENDS = " \
 	gstreamer1.0-plugins-ugly \
 	gstreamer1.0-libav \
 "
-FILES_${PN}  += "${AVS_DIR}/avs-sdk-client"
+FILES_${PN}  += "${AVS_DIR}/avs-sdk-client ${AVS_DIR}/avs-device-sdk"
 FILES_${PN}-dev  += "${AVS_DIR}/libs"
 
 do_install() {
@@ -55,18 +55,12 @@ do_install() {
 
     mkdir ${D}/${AVS_DIR}/libs
     cd ${D}/${AVS_DIR}/libs
-    find ../avs-sdk-client -executable -type f -exec ${WORKDIR}/libInstall.sh {} \;
+    find ../avs-sdk-client -executable -type f -exec ${WORKDIR}/libsInstall.sh {} \;
 
-##    cp -r -L ${S} ${D}/${AVS_DIR}/avs-device-sdk
-##    cd ${D}/${AVS_DIR}/avs-device-sdk
-##    git repack -a -d
-##    rm .git/objects/info/alternates
+    cp -r -L ${S} ${D}/${AVS_DIR}/avs-device-sdk
+    cd ${D}/${AVS_DIR}/avs-device-sdk
+    git repack -a -d
+    rm .git/objects/info/alternates
 }
 BBCLASSEXTEND = "native"
-
- 
-
-
-
-
 
